@@ -10,5 +10,4 @@ contract Car {
     function setBrand(string newBrand) public {
         brand = newBrand;
     }
-    
 }
