@@ -30,3 +30,4 @@ const web3 = new Web3(provider);
     console.timeEnd('contract-deploy');
     console.log('合约部署成功：', result.options.address);
 })();
+ 
