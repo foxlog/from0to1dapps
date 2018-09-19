@@ -77,6 +77,8 @@ contract Project {
 
     //发起资金支出请求
     function createPayment(string _description, uint _amount, address _receiver) public {
+        require(msg.sender == owner);
+
         //? how to understand?
         Payment memory newPayment = Payment({
             description: _description, 
@@ -122,6 +124,8 @@ contract Project {
 
     //执行支付
     function doPayment(uint index) public {
+        require(msg.sender == owner);
+        
         //找到该待支付
         Payment storage payment = payments[index];
 
