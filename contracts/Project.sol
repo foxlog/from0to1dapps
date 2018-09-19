@@ -31,6 +31,8 @@ library SafeMath {
 }
 
 contract Project {
+    using SafeMath for uint;
+
     //引用类型
     struct Payment {
         string description;
@@ -63,7 +65,11 @@ contract Project {
 
         //? how to understand? 当前合约转换为address类型
         //直接写this.balance也是可以的
-        require(address(this).balance <= goal);
+        
+        uint newBalance = 0;
+        newBalance = address(this).balance.add(msg.value);
+        require(newBalance <= goal);
+
 
         investors.push(msg.sender);
 
