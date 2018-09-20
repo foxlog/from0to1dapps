@@ -50,6 +50,10 @@ contract Project {
     address[] public investors;//投资者列表
     Payment[] public payments;//支付列表
 
+    modifier ownerOnly() {
+        require(msg.sender == owner);
+    }
+
     constructor(string _description, uint _minInvest, uint _maxInvest, uint _goal) public {
         owner = msg.sender; //msg 是关键词， 全局变量， 这里是项目方的发起人
         description = _description;
@@ -76,8 +80,7 @@ contract Project {
     }
 
     //发起资金支出请求
-    function createPayment(string _description, uint _amount, address _receiver) public {
-        require(msg.sender == owner);
+    function createPayment(string _description, uint _amount, address _receiver) ownerOnly public {
 
         //? how to understand?
         Payment memory newPayment = Payment({
@@ -123,9 +126,8 @@ contract Project {
     }
 
     //执行支付
-    function doPayment(uint index) public {
-        require(msg.sender == owner);
-        
+    function doPayment(uint index) ownerOnly public {
+
         //找到该待支付
         Payment storage payment = payments[index];
 
