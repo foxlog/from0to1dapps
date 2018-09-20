@@ -39,7 +39,8 @@ contract Project {
         uint amount;
         address receiver; //接收方地址
         bool completed; //支付是否完成
-        address[] voters;
+        mapping(address => bool) voters;
+        uint voterCount;
     }
     
     address public owner; //项目方
@@ -47,7 +48,10 @@ contract Project {
     uint public minInvest;//最小投资金额
     uint public maxInvest;//最大投资金额
     uint public goal;//目标金额
-    address[] public investors;//投资者列表
+    
+    mapping(address => uint) public investors;
+    uint public investorCount;
+    
     Payment[] public payments;//支付列表
 
     modifier ownerOnly() {
@@ -76,7 +80,8 @@ contract Project {
         require(newBalance <= goal);
 
 
-        investors.push(msg.sender);
+        investors[msg.sender] = msg.value;
+        investorCount += 1;
 
     }
 
@@ -89,7 +94,7 @@ contract Project {
             amount: _amount, 
             receiver: _receiver,
             completed: false,
-            voters: new address[](0)
+            voterCount: 0
         });
 
         payments.push(newPayment);
@@ -102,28 +107,15 @@ contract Project {
 
         //must be investor to vote
         //从投资人列表里找出是否包含当前操作人的地址
-        bool isInvestor = false;
-        for(uint i = 0; i < investors.length; i++){
-            isInvestor = investors[i] == msg.sender;
-            if(isInvestor){
-                break;
-            }
-        }
-        require(isInvestor);
+        require(investors[msg.sender] > 0);
 
         //can not vote twice
         //从支付的投票人里寻找是否包含当前操作者
-        bool hasVoted = false;
-        for(uint j = 0; j < payment.voters.length; j++){
-            hasVoted = payment.voters[j] == msg.sender;
-            if(hasVoted){
-                break;
-            }
-        }
+        
+        require(!payment.voters[msg.sender]);
 
-        require(!hasVoted);
-
-        payment.voters.push(msg.sender);
+        payment.voters[msg.sender] = true;
+        payment.voterCount += 1;
     }
 
     //执行支付
@@ -135,7 +127,7 @@ contract Project {
         require(!payment.completed);//支付还没有完成
         //帐户余额检查
         require(address(this).balance >= payment.amount);
-        require(payment.voters.length > (investors.length /2)); //超过一半投资人同意
+        require(payment.voterCount > (investorCount / 2)); //超过一半投资人同意
 
         payment.receiver.transfer(payment.amount);
         payment.completed = true;
