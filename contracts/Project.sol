@@ -52,6 +52,7 @@ contract Project {
 
     modifier ownerOnly() {
         require(msg.sender == owner);
+        _;
     }
 
     constructor(string _description, uint _minInvest, uint _maxInvest, uint _goal) public {
