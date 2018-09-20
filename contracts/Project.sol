@@ -30,6 +30,20 @@ library SafeMath {
     }
 }
 
+contract ProjectList {
+    using SafeMath for uint;
+    address[] public projects;
+
+    function createProject(string _description, uint _minInvest, uint _maxInvest, uint _goal) public {
+        address newProject = new Project(_description, _minInvest, _maxInvest, _goal, msg.sender);
+        projects.push(newProject);
+    }
+
+    function getProjects() public view returns(address[]) {
+        return projects;
+    }
+}
+
 contract Project {
     using SafeMath for uint;
 
@@ -59,12 +73,13 @@ contract Project {
         _;
     }
 
-    constructor(string _description, uint _minInvest, uint _maxInvest, uint _goal) public {
+    constructor(string _description, uint _minInvest, uint _maxInvest, uint _goal, address _owner) public {
         owner = msg.sender; //msg 是关键词， 全局变量， 这里是项目方的发起人
         description = _description;
         minInvest = _minInvest;
         maxInvest = _maxInvest;
         goal = _goal;
+        owner = _owner;
     }
 
     //投资人开始提交投资
