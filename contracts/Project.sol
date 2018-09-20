@@ -132,6 +132,8 @@ contract Project {
         Payment storage payment = payments[index];
 
         require(!payment.completed);//支付还没有完成
+        //帐户余额检查
+        require(address(this).balance >= payment.amount);
         require(payment.voters.length > (investors.length /2)); //超过一半投资人同意
 
         payment.receiver.transfer(payment.amount);
