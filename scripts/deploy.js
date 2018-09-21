@@ -8,8 +8,8 @@ const { interface, bytecode } = require(contractPath);
 
 // 2. 配置 provider, 这里的助记词是metamask钱包里的助记词
 const provider = new HDWalletProvider(
-    'desk vivid drip ....... adjust',
-    'https://rinkeby.infura.io/v3/........b4f36ecf7bb'
+    process.env.metamasksecretkey,
+    process.env.infuratestneturl
 );
 
 // 3. 初始化 web3 实例
