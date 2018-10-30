@@ -6,6 +6,10 @@ const HDWalletProvider = require('truffle-hdwallet-provider');
 const contractPath = path.resolve(__dirname, '../compiled/Car.json');
 const { interface, bytecode } = require(contractPath);
 
+
+console.log('env.metamasksecretkey：', process.env.metamasksecretkey);
+console.log('env.infuratestneturl：', process.env.infuratestneturl);
+
 // 2. 配置 provider, 这里的助记词是metamask钱包里的助记词
 const provider = new HDWalletProvider(
     process.env.metamasksecretkey,

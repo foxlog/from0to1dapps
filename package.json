@@ -5,17 +5,26 @@
   "main": "index.js",
   "scripts": {
     "compile": "node scripts/compile.js",
-    "pretest": "npm run compile", 
+    "pretest": "npm run compile",
     "test": "mocha tests",
-    "predeploy": "npm run compile", 
-    "deploy": "node scripts/deploy.js"
+    "predeploy": "npm run compile",
+    "deploy": "node scripts/deploy.js",
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/core": "^3.3.2",
     "fs-extra": "^7.0.0",
     "help": "^3.0.2",
+    "next": "^6.0.3",
+    "next-route": "^2.0.0",
+    "next-routes": "^1.4.2",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
     "solc": "^0.4.25",
     "truffle-hdwallet-provider": "0.0.3",
     "web3": "1.0.0-beta.34"
