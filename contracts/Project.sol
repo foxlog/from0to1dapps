@@ -148,4 +148,18 @@ contract Project {
         payment.completed = true;
     }
 
+    //一个方法显示所有需要的属性, 减少网络开销
+    function getSummary() public view returns (string, uint, uint, uint, uint, uint, uint, address){
+        return (
+        description,
+        minInvest,
+        maxInvest,
+        goal,
+        address(this).balance,
+        investorCount,
+        payments.length,
+        owner
+
+    );
+    }
 }
