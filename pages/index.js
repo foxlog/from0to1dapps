@@ -6,6 +6,7 @@ import ProjectList from '../libs/projectList';
 import {Grid, Button, Typography, Card, CardContent, CardActions, LinearProgress} from '@material-ui/core';
 import withRoot from '../libs/withRoot';
 import Layout from "../components/Layout";
+import InfoBlock from '../components/InfoBlock';
 
 class Index extends React.Component {
     static async getInitialProps({req}) {
@@ -56,16 +57,24 @@ class Index extends React.Component {
     renderProject(project) {
         const progress = project.balance / project.goal * 100;
         return (
-            <Grid item md={4} key={project.address}>
+            <Grid item md={6} key={project.address}>
                 <Card>
                     <CardContent>
                         <Typography gutterBottom variant="headline" component="h2">
                             {project.description}
                         </Typography>
 
-                        <LinearProgress color="primary" variant="determinate" value={progress} />
+                        <LinearProgress style={{margin: '10px 0'}} color="primary" variant="determinate" value={progress} />
 
-                        <Typography component="p"> {project.address}</Typography>
+                        <Grid container spacing={16}>
+                            <InfoBlock title={`${web3.utils.fromWei(project.goal, 'ether')} ETH`} description="募资上限" />
+                            <InfoBlock title={`${web3.utils.fromWei(project.minInvest, 'ether')} ETH`} description="最小投资金额" />
+                            <InfoBlock title={`${web3.utils.fromWei(project.maxInvest, 'ether')} ETH`} description="最大投资金额" />
+                            <InfoBlock title={`${project.investorCount}人`} description="参投人数" />
+                            <InfoBlock title={`${web3.utils.fromWei(project.balance, 'ether')} ETH`} description="已募资金额" />
+
+                        </Grid>
+
                     </CardContent>
                     <CardActions>
                         <Link route={`/projects/${project.address}`}>
