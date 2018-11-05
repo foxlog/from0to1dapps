@@ -87,3 +87,5 @@ class ProjectCreate extends React.Component {
 
     }
 }
+
+export default withRoot(ProjectCreate);
