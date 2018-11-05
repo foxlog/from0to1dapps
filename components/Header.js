@@ -2,6 +2,8 @@ import React from 'react';
 import {AppBar, Toolbar, Typography, Button} from '@material-ui/core';
 import {withStyles } from '@material-ui/core/styles';
 
+import {Link} from '../routes';
+
 const styles ={
     wrapper:{
         margin: '0 auto',

@@ -47,9 +47,12 @@ class Index extends React.Component {
         const {projects} = this.props;
 
         return (
-            <Grid container spacing={16}>
-                {projects.map(this.renderProject)}
-            </Grid>
+            <Layout>
+                <Grid container spacing={16}>
+                    {projects.length === 0 && <p>还没有项目,快去创建吧</p>}
+                    {projects.length > 0 && projects.map(this.renderProject)}
+                </Grid>
+            </Layout>
         );
     }
 
