@@ -113,6 +113,10 @@ class ProjectDetail extends React.Component {
                     项目详情
                 </Typography>
                 {this.renderBasicInfo(project)}
+                <Typography variant="title" color="inherit" style={{margin: '30px 0 15px'}}>
+                    资金支出请求
+                </Typography>
+                {this.renderPayments(project)}
             </Layout>
         );
 
@@ -160,6 +164,20 @@ class ProjectDetail extends React.Component {
             </Paper>
 
 
+        );
+    }
+
+    renderPayments(project) {
+        console.log(project);
+
+        return (
+            <Paper style={{padding: '15px'}}>
+                <Link route={`/project/${project.address}/payments/create`}>
+                    <Button variant="raised" color="primary">
+                        创建资金支出请求
+                    </Button>
+                </Link>
+            </Paper>
         );
     }
 
