@@ -172,7 +172,7 @@ class ProjectDetail extends React.Component {
 
         return (
             <Paper style={{padding: '15px'}}>
-                <Link route={`/project/${project.address}/payments/create`}>
+                <Link route={`/projects/${project.address}/payments/create`}>
                     <Button variant="raised" color="primary">
                         创建资金支出请求
                     </Button>
