@@ -1,5 +1,6 @@
 import React from 'react';
-import {Grid, Button, Typography, LinearProgress, Paper, TextField, CircularProgress} from '@material-ui/core';
+import {Grid, Button, Typography, LinearProgress, Paper, TextField, CircularProgress,
+Table, TableHead, TableBody, TableRow, TableCell} from '@material-ui/core';
 
 import {Link} from '../../routes';
 import web3 from '../../libs/web3';
@@ -18,6 +19,15 @@ class ProjectDetail extends React.Component {
             summary
         );
 
+        //资金支出列表
+        const tasks = [];
+        for(let i =0; i<paymentCount; i++){
+            tasks.push(contract.methods.payments(i).call());//call method is Promise type
+        }
+
+        const payments = await Promise.all(tasks);
+
+
         const project = {
             address: query.address,
             description,
@@ -28,7 +38,10 @@ class ProjectDetail extends React.Component {
             investorCount,
             paymentCount,
             owner,
+            payments,
         };
+
+        console.log('project', project);
 
         return {project};
     }
@@ -172,6 +185,32 @@ class ProjectDetail extends React.Component {
 
         return (
             <Paper style={{padding: '15px'}}>
+                <Table style={{marginBottom: '30px'}}>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>支出理由</TableCell>
+                            <TableCell numeric>支出金额</TableCell>
+                            <TableCell>收款人</TableCell>
+                            <TableCell>已完成?</TableCell>
+                            <TableCell>投票状态</TableCell>
+                            <TableCell>操作</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {project.payments.map(payment => {
+                            return (
+                                <TableRow key={payment.id}>
+                                    <TableCell>{payment.description}</TableCell>
+                                    <TableCell>{web3.utils.fromWei(payment.amount, 'ether')} ETH </TableCell>
+                                    <TableCell>{payment.receiver}</TableCell>
+                                    <TableCell>{payment.completed ? '是' : '否'}</TableCell>
+                                    <TableCell>{payment.voterCount}/{payment.investorCount}</TableCell>
+                                    <TableCell></TableCell>
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
                 <Link route={`/projects/${project.address}/payments/create`}>
                     <Button variant="raised" color="primary">
                         创建资金支出请求
